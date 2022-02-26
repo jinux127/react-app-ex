@@ -7,7 +7,8 @@ React 기초 학습 및 이를 활용한 개인 프로젝트 생성
 
 ## 학습 내용
 - JSX
-- setState
+- useState
 - Props
 - Memo
 - useEffect
+- useState의 [] 사용법
