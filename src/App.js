@@ -1,29 +1,38 @@
-import styles from "./App.module.css";
-import { useState, useEffect} from "react";
+import React, { useEffect, useState } from 'react';
 
-function App() {
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const onClick = () => setValue(prev=>prev+1);
-  const onChange = (e) => setKeyword(e.target.value);
-  console.log('run all the time');
-  useEffect(() =>{
-    console.log('CALL THE API...');
-  }, []);
-  useEffect(() =>{
-    if(keyword !== "" && keyword.length > 5)console.log(`SEARCH FOR ${keyword}`);
-  }, [keyword]);
-  useEffect(() =>{
-   console.log(`I run when 'counter' changes.`);
-  }, [counter]);
-  
-  return (
-    <div className="App">
-      <input value={keyword} onChange={onChange} type="text" placeholder="Search here..." ></input>
-      <h1 className={styles.title}>{counter}</h1>
-      <button onClick={onClick}>click me!</button>
-    </div>
-  );
+const App = () => {
+    const [loading, setLoading] = useState(true);
+    const [conins, setCoins] = useState([]);
+    const [money, setMoney] = useState(1);
+    const [price,setPrice] = useState(1);
+    const onChange = (e) =>{
+        setMoney(e.target.value);
+    }
+    const onChangePrice = (e) =>{
+        setPrice(e.target.value);
+    }
+    useEffect(()=>{
+        fetch("https://api.coinpaprika.com/v1/tickers")
+            .then(response => response.json())
+            .then(json => {
+                setCoins(json);
+                setLoading(false);
+            });
+    },[])
+    return ( 
+        <div>
+            <h1>The Coins!  {loading ? <strong>|Loading...</strong>: `| search result: (${conins.length})`}</h1>
+            <hr></hr>
+            <label>USD: </label>
+            <input onChange={onChange} value={money}></input>
+            <hr></hr>
+            <select onChange={onChangePrice}>
+                <option value ={1}> Please select coin!</option>
+                {conins.map((coin)=><option id={coin.symbol} value={coin.quotes.USD.price} key={coin.id}>{coin.name} ({coin.symbol}): {coin.quotes.USD.price}USD</option>)}
+            </select>
+            <h2>You can get {money/price}</h2>
+        </div>
+     );
 }
-
+ 
 export default App;
