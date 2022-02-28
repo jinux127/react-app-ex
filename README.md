@@ -12,4 +12,4 @@ React 기초 학습 및 이를 활용한 개인 프로젝트 생성
 - Memo
 - useEffect
 - useState의 [] 사용법
-- Coin API 를 통한 코인 & USD 변환
+- Coin API 를 통한 코인 정보 조회 및 USD 변환
